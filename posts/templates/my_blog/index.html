@@ -1,0 +1,33 @@
+{% extends 'my_blog/base.html' %}
+
+{% block content %}	
+{% if lists %}
+<div class="col-sm-10 col-sm-offset-1">
+	{% for lt in lists %}
+		<div class="row">
+		  <div class="col-sm-12">
+		    <div class="thumbnail">
+		      {% if lt.image%}
+		      <!img src="{{ lt.image.url }}" class="img-responsive">
+		      {% endif %}
+		      <img src="{{ lt.image.url }}" alt="...">
+		      <div class="caption">
+		        <h3><a href="{% url 'posts:detail' lt.id %}">{{ lt.title}}</a><small>  {{ lt.timestamp|timesince }} ago</small></h3>
+		        <p>{{ lt.content|linebreaks|truncatechars:120 }}</p>
+		        <p><a href="{% url 'posts:detail' lt.id %}" class="btn btn-primary" role="button">View</a></p>
+				        <button  data-like-id="{{ lt.id }}" class="btn btn-primary glyphicon glyphicon-thumbs-up likes" type="button">
+				        Like {% if lt.likes > 0 %} {{lt.likes}} {% endif %}
+				        </button>	  
+				     	<button id="dislike{{ lt.id }}" data-dislike-id="{{ lt.id }}" class="btn btn-primary glyphicon glyphicon-thumbs-down dislikes" type="button">
+				        DisLikes {% if lt.dislikes > 0 %} {{lt.dislikes}} {% endif %}
+				        </button>    
+				</div>
+		    </div>
+		  </div>
+		</div>
+		{% endfor %}
+</div>
+{% else %}
+<h1> No Posts to display </h1>
+{% endif %}
+{% endblock %}

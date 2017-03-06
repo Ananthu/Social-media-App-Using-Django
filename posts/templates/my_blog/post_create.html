@@ -1,0 +1,13 @@
+{% extends "my_blog/base.html" %}
+
+
+{% block content%}
+	<h3><a href="{% url 'posts:index' %}">Home</a></h3>
+	<div class="col-sm-8 col-sm-offset-2"">
+		<form method="POST" action="" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.as_p}}
+			<input type="submit" Value="Done">
+		</form>
+	</div>
+{% endblock %}

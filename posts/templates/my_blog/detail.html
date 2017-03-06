@@ -1,0 +1,40 @@
+{% extends 'my_blog/base.html' %}
+
+
+{% block content %}
+
+<h3><a href="{% url 'posts:index'  %}">Home</a></h3>
+<h3><a href="{% url 'posts:edit_post' id=lists.id %}">Edit</a></h3>
+<h3><a href="{% url 'posts:delete_post' id=lists.id %}">Delete</a></h3>
+
+<div class="col-sm-8 col-sm-offset-2">
+	{% if lists.image %}
+		<img src="{{ lists.image.url }}" class="img-responsive">
+	{% endif %}
+	<h3>{{ lists.title }}</h3>
+	{{ lists.content|linebreaks }}
+	{{ lists.updated }}<br/>
+	<h4>PostCreated By ->{{ lists.created_user }}</h4> <br/>
+
+
+{% if lists.comment_set.all %}
+	<h3>Available Comments</h3>
+	{% for comment in lists.comment_set.all %}
+	    <div class="comment">
+	        
+	        <strong><h3>{{ comment.author }}</h3></strong><span><div class="date">{{ comment.created_date }}</div></span>
+	        <p>{{ comment.text|linebreaks }}</p>
+	    </div>
+	{% empty %}
+	    <p>No comments here yet :(</p>
+	{% endfor %}
+{% else %}
+<h3>No Comments To display</h3>
+{% endif %}
+
+<a class="btn btn-default" href="{% url 'posts:add_comment_to_post' id=lists.id %}">Add Comment</a>
+</div>
+
+
+{% endblock content %}
+ 
